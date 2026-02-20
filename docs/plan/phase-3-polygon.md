@@ -1,4 +1,4 @@
-# Phase 2: Polygon Integration
+# Phase 3: Polygon Integration
 
 **Цель:** Заменить Polygon mock на реальную интеграцию с Mumbai testnet
 
@@ -6,7 +6,7 @@
 
 **Статус:** ⏳ Not Started
 
-**Prerequisite:** Phase 1 завершена
+**Prerequisite:** Phase 1A, 1B, 2 завершены (моки работают + API изучены)
 
 ## Задачи
 
@@ -378,4 +378,4 @@ Use alternative RPC:
 
 ## Следующий шаг
 
-После завершения Phase 2 переходим к [Phase 3: Kraken Integration](phase-3-kraken.md)
+После завершения Phase 3 переходим к [Phase 4: Kraken Integration](phase-4-kraken.md)

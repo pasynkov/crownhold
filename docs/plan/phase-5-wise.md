@@ -1,4 +1,4 @@
-# Phase 4: Wise Integration
+# Phase 5: Wise Integration
 
 **Цель:** Заменить Wise mock на реальную интеграцию с Wise API
 
@@ -6,7 +6,7 @@
 
 **Статус:** ⏳ Not Started
 
-**Prerequisite:** Phase 1, 2, 3 завершены
+**Prerequisite:** Phase 1-4 завершены
 
 ✅ **GOOD NEWS:** Wise имеет sandbox API для тестирования!
 
@@ -413,4 +413,4 @@ Body: { type: "BALANCE" }
 
 ## Следующий шаг
 
-После завершения Phase 4 переходим к [Phase 5: End-to-End Integration](phase-5-e2e.md)
+После завершения Phase 5 переходим к [Phase 6: End-to-End Integration](phase-6-e2e.md)

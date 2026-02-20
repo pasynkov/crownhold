@@ -1,4 +1,4 @@
-# Phase 6: Production Hardening
+# Phase 7: Production Hardening
 
 **Цель:** Подготовить систему к регулярному production использованию
 
@@ -6,7 +6,7 @@
 
 **Статус:** ⏳ Not Started
 
-**Prerequisite:** Phase 1-5 завершены и протестированы
+**Prerequisite:** Phase 1-6 завершены и протестированы
 
 ## Задачи
 

@@ -1,4 +1,4 @@
-# Phase 3: Kraken Integration
+# Phase 4: Kraken Integration
 
 **Цель:** Заменить Kraken mock на реальную интеграцию с Kraken API
 
@@ -6,7 +6,7 @@
 
 **Статус:** ⏳ Not Started
 
-**Prerequisite:** Phase 1 и 2 завершены
+**Prerequisite:** Phase 1-3 завершены
 
 ⚠️ **IMPORTANT:** Kraken не имеет sandbox API. Тестируем на real API с МАЛЫМИ СУММАМИ!
 
@@ -397,4 +397,4 @@ Before testing with real API:
 
 ## Следующий шаг
 
-После завершения Phase 3 переходим к [Phase 4: Wise Integration](phase-4-wise.md)
+После завершения Phase 4 переходим к [Phase 5: Wise Integration](phase-5-wise.md)

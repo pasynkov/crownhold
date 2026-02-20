@@ -1,19 +1,33 @@
-# Phase 0: Research & API Analysis
+# Phase 2: Research & API Analysis
 
-**Цель:** Изучить API всех сервисов и выбрать технологии для интеграции
+**Цель:** Детально изучить API всех сервисов и выбрать библиотеки для интеграции
 
 **Время:** 1-2 дня
 
-**Статус:** 🔄 In Progress
+**Статус:** ⏳ Not Started
+
+**Prerequisite:** Phase 1A и 1B завершены (моки работают, Claude Desktop интеграция проверена)
+
+## Зачем Research после моков?
+
+После Phase 1A и 1B мы **уже знаем** что:
+- ✅ Claude Desktop интеграция работает
+- ✅ MCP protocol понятен
+- ✅ Recipient resolution работает
+- ✅ Async операции эмулируются корректно
+- ✅ Полный workflow протестирован на моках
+
+Теперь можно **сфокусироваться на реальных API** без отвлечения на MCP инфраструктуру.
 
 ## Задачи
 
-- [x] Исследовать Kraken API
-- [x] Исследовать Wise API
-- [x] Выбрать библиотеки для Polygon/USDC
-- [ ] Создать API Research документ
-- [ ] Определить список endpoints для каждого сервиса
+- [ ] Детально изучить Kraken API endpoints
+- [ ] Детально изучить Wise API endpoints
+- [ ] Подтвердить выбор библиотек (ethers.js, kraken-api, axios)
+- [ ] Создать API credentials (sandbox где доступно)
+- [ ] Определить точный список endpoints для каждого сервиса
 - [ ] Проверить доступность sandbox/testnet
+- [ ] Подготовить test accounts
 
 ## 1. Kraken API
 
@@ -542,6 +556,9 @@ npm install -D @types/node typescript
 
 ## Следующий шаг
 
-✅ Research завершен
+После завершения Phase 2 переходим к [Phase 3: Polygon Integration](phase-3-polygon.md)
 
-Переходим к [Phase 1: MCP Infrastructure + Mock Services](phase-1-mcp-mocks.md)
+Теперь у нас есть:
+- ✅ Работающая MCP инфраструктура (from Phase 1A/1B)
+- ✅ Детальное понимание всех API (from Phase 2)
+- ✅ Готовность к real интеграциям

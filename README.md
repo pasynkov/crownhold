@@ -132,10 +132,10 @@ Crown Hold is built as a monorepo containing multiple NestJS applications, each 
 
 ### Development Plan
 - [Phase-by-Phase Development Plan](docs/plan/README.md)
-- [Phase 0: Research & API Analysis](docs/plan/phase-0-research.md) ✅
-- [Phase 1A: Minimal Mock for Testing](docs/plan/phase-1a-minimal-mock.md)
+- [Phase 1A: Minimal Mock for Testing](docs/plan/phase-1a-minimal-mock.md) ⭐ **START HERE**
 - [Phase 1B: Full Mock Services](docs/plan/phase-1b-full-mocks.md)
-- [Phase 2-6: Integration & Production](docs/plan/)
+- [Phase 2: Research & API Analysis](docs/plan/phase-2-research.md)
+- [Phase 3-7: Integration & Production](docs/plan/)
 
 ## Security
 

@@ -1,4 +1,4 @@
-# Phase 5: End-to-End Integration Testing
+# Phase 6: End-to-End Integration Testing
 
 **Цель:** Протестировать полный workflow от Polygon до Revolut с реальными API
 
@@ -6,7 +6,7 @@
 
 **Статус:** ⏳ Not Started
 
-**Prerequisite:** Phase 1-4 завершены
+**Prerequisite:** Phase 1-5 завершены
 
 ## Задачи
 
@@ -327,4 +327,4 @@ MAX_TRANSFER_AMOUNT_EUR=20
 
 ## Следующий шаг
 
-После завершения Phase 5 переходим к [Phase 6: Production Hardening](phase-6-production.md)
+После завершения Phase 6 переходим к [Phase 7: Production Hardening](phase-7-production.md)
