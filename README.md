@@ -121,6 +121,7 @@ Crown Hold is built as a monorepo containing multiple NestJS applications, each 
 ### Architecture & Design
 - [Architecture Overview](docs/architecture.md)
 - [Deployment Guide](docs/deployment.md)
+- [Recipients & Scenarios](docs/recipients-and-scenarios.md) ⭐ **Natural Language!**
 - [MCP Servers Description](docs/mcp-servers.md)
 
 ### Setup & Configuration

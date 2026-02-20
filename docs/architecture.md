@@ -181,6 +181,45 @@ Each MCP server is a standalone NestJS application that:
 - Exchange rates
 - Recipient management
 
+## Money Flow Direction
+
+**CRITICAL: Crown Hold supports ONLY unidirectional money flow:**
+
+```
+┌─────────────┐
+│   Polygon   │ USDC
+│  (Wallet)   │
+└──────┬──────┘
+       │
+       ├─> Kraken (deposit)
+       └─> Other Wallets (wife, friends, savings)
+
+┌──────┴──────┐
+│   Kraken    │ USDC → EUR
+│ (Exchange)  │
+└──────┬──────┘
+       │
+       └─> Wise (withdrawal ONLY)
+
+┌──────┴──────┐
+│    Wise     │ EUR
+│ (Transfer)  │
+└──────┬──────┘
+       │
+       └─> Recipients (Revolut, banks, people)
+```
+
+**No backward flow:**
+- ❌ Kraken → Polygon (not supported)
+- ❌ Wise → Kraken (not supported)
+- ❌ Recipients → Wise (external process, not in system)
+
+This unidirectional design ensures:
+- Clear audit trail
+- No circular dependencies
+- Simpler error handling
+- Predictable state management
+
 ## Data Flow
 
 ### Example: "Top up my Revolut with 1000 EUR"

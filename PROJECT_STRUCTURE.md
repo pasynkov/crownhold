@@ -13,8 +13,10 @@ crownhold/
 ├── docs/                          # 📚 Documentation
 │   ├── architecture.md            # System architecture and design
 │   ├── deployment.md              # Local deployment architecture
+│   ├── recipients-and-scenarios.md # Natural language recipients & scenarios
 │   ├── mcp-servers.md             # MCP servers technical docs
 │   ├── claude-setup.md            # Claude Desktop setup guide
+│   ├── claude-desktop-instructions.md # Instructions for Claude Desktop
 │   ├── environment-setup.md       # Environment variables guide
 │   ├── workflows.md               # Common usage workflows
 │   └── plan/                      # 📋 Development Plan

@@ -105,8 +105,24 @@ WALLET_ADDRESS=
 USDC_CONTRACT_ADDRESS=0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174
 USDC_DECIMALS=6
 
-KRAKEN_DEPOSIT_ADDRESS=
+# Recipients with Natural Language Aliases
+# Format: {NAME}_ADDRESS and {NAME}_ALIAS (comma-separated)
 
+# Kraken deposit (primary destination)
+KRAKEN_DEPOSIT_ADDRESS=
+KRAKEN_DEPOSIT_ALIAS=kraken,кракен,exchange,биржа
+
+# Personal wallets
+WIFE_WALLET_ADDRESS=
+WIFE_WALLET_ALIAS=wife,жена,полина,polina
+
+FRIEND_WALLET_ADDRESS=
+FRIEND_WALLET_ALIAS=friend,друг,андрей,andrey
+
+SAVINGS_WALLET_ADDRESS=
+SAVINGS_WALLET_ALIAS=savings,сбережения,cold wallet,холодный кошелек
+
+# Transaction Limits
 MAX_TRANSFER_AMOUNT_USDC=10000
 GAS_LIMIT_MULTIPLIER=1.2
 MAX_GAS_PRICE_GWEI=500
@@ -278,15 +294,53 @@ WISE_PROFILE_ID=
 WISE_API_URL=https://api.wise.com
 API_TIMEOUT_MS=30000
 
-REVOLUT_RECIPIENT_ID=
-REVOLUT_RECIPIENT_NAME=MyRevolutAccount
+# Recipients with Natural Language Aliases
+# Format: {NAME}_RECIPIENT_ID and {NAME}_ALIAS
 
+# Personal accounts
+MY_REVOLUT_RECIPIENT_ID=
+MY_REVOLUT_ALIAS=revolut,мой револют,my revolut,себе,myself
+
+WIFE_REVOLUT_RECIPIENT_ID=
+WIFE_REVOLUT_ALIAS=wife,жена,полина,polina,wife revolut,револют жены
+
+# Business/Salary accounts
+POLINA_SALARY_RECIPIENT_ID=
+POLINA_SALARY_ALIAS=polina salary,зарплата полины,зарплата жены,salary
+
+# Other recipients
+MOM_BANK_RECIPIENT_ID=
+MOM_BANK_ALIAS=mom,мама,mother
+
+SISTER_BANK_RECIPIENT_ID=
+SISTER_BANK_ALIAS=sister,сестра
+
+# Scenarios (recurring payments)
+# Format: SCENARIO_{NAME}_{FIELD}
+
+# Monthly salary for Polina
+SCENARIO_POLINA_SALARY_AMOUNT=5000
+SCENARIO_POLINA_SALARY_CURRENCY=EUR
+SCENARIO_POLINA_SALARY_RECIPIENT=polina salary
+SCENARIO_POLINA_SALARY_SOURCE=wise
+SCENARIO_POLINA_SALARY_DESCRIPTION=Monthly salary for Polina
+
+# Monthly allowance
+SCENARIO_WIFE_ALLOWANCE_AMOUNT=1000
+SCENARIO_WIFE_ALLOWANCE_CURRENCY=EUR
+SCENARIO_WIFE_ALLOWANCE_RECIPIENT=wife revolut
+SCENARIO_WIFE_ALLOWANCE_SOURCE=wise
+SCENARIO_WIFE_ALLOWANCE_DESCRIPTION=Monthly allowance
+
+# Transfer Limits
 MAX_TRANSFER_AMOUNT_EUR=5000
 MAX_TRANSFER_AMOUNT_GBP=5000
 MAX_TRANSFER_AMOUNT_USD=5000
 
+# Allowed Currencies
 ALLOWED_CURRENCIES=EUR,GBP,USD
 
+# Logging
 LOG_LEVEL=info
 LOG_FILE=/tmp/crown-wise.log
 ```
