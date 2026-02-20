@@ -1,57 +1,120 @@
-# Polygon MCP Server
+# Crown Hold - Polygon MCP Server
 
 Model Context Protocol server for Polygon blockchain interactions.
 
-## Features
+## Current Status: Phase 1A - Minimal Mock
 
-- Get USDC and MATIC balances
-- Get token prices
-- Transfer USDC to predefined addresses (Kraken)
-- View transaction history
-- Estimate gas fees
+This is a **minimal mock implementation** for testing Claude Desktop integration.
 
-## Setup
+**Features:**
+- ✅ Two mock tools for testing
+- ✅ stdio-based MCP server
+- ✅ Validates Claude Desktop integration
 
-1. Copy `.env.example` to `.env`
-2. Fill in your credentials:
-   - Polygon RPC URL
-   - Wallet private key
-   - Kraken deposit address
-3. Install dependencies: `npm install`
-4. Build: `npm run build`
-5. Test: `npm test`
+## Tools
 
-## Tools Exposed
+### polygon_get_balance
 
-- `polygon_get_balance` - Get wallet balances
-- `polygon_get_token_price` - Get token price
-- `polygon_transfer_usdc` - Transfer USDC
-- `polygon_get_transactions` - View transaction history
-- `polygon_estimate_gas` - Estimate gas fees
+Get USDC and MATIC balance from Polygon wallet.
 
-## Security
+**Returns (mock data):**
+```json
+{
+  "success": true,
+  "data": {
+    "address": "0xMOCK1234567890abcdef",
+    "usdc": "5234.50",
+    "matic": "12.45"
+  }
+}
+```
 
-- Never commit `.env` file
-- Use separate wallet for this service
-- Keep most funds in cold storage
-- Set reasonable `MAX_TRANSFER_AMOUNT_USDC`
+### polygon_get_token_price
 
-## Development
+Get current USDC price in EUR.
+
+**Returns (mock data):**
+```json
+{
+  "success": true,
+  "data": {
+    "token": "USDC",
+    "currency": "EUR",
+    "price": "0.9200"
+  }
+}
+```
+
+## Installation
 
 ```bash
-# Development mode
-npm run dev
+# From project root
+cd applications/mcp-polygon
+
+# Install dependencies
+npm install --cache /tmp/.npm-cache
 
 # Build
 npm run build
 
-# Test
-npm test
-
-# Lint
-npm run lint
+# Test run (press Ctrl+C to exit)
+npm start
 ```
 
-## Documentation
+## Claude Desktop Configuration
 
-See [main documentation](../../docs/mcp-servers.md#polygon-mcp-server) for detailed implementation guide.
+See: [Claude Desktop Configuration - Phase 1A](../../docs/setup/claude-desktop-config-phase-1a.md)
+
+Quick setup:
+
+1. Build the server: `npm run build`
+2. Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+   ```json
+   {
+     "mcpServers": {
+       "crown-polygon-mock": {
+         "command": "node",
+         "args": ["/Users/pasynkov/dev/crownhold/applications/mcp-polygon/dist/main.js"]
+       }
+     }
+   }
+   ```
+3. Restart Claude Desktop (CMD+Q)
+4. Add Custom Instructions (see full guide)
+5. Test: "What's my balance?"
+
+## Development
+
+```bash
+# Build
+npm run build
+
+# Build and run
+npm run dev
+```
+
+## Next Steps
+
+After Phase 1A succeeds:
+- Phase 1B: Full mock services with all tools
+- Phase 2: Real Polygon integration with ethers.js
+
+## Architecture
+
+```
+┌─────────────────┐
+│  Claude Desktop │
+└────────┬────────┘
+         │ stdio
+    ┌────┴────┐
+    │   MCP   │
+    │ Server  │
+    └────┬────┘
+         │
+    ┌────┴────┐
+    │  Mock   │
+    │  Data   │
+    └─────────┘
+```
+
+Phase 1A: Validates this entire stack works correctly.

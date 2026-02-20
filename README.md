@@ -77,14 +77,43 @@ Crown Hold is built as a monorepo containing multiple NestJS applications, each 
 
 ## Getting Started
 
-### Prerequisites
+### 🚀 Phase 1A: Test MCP Integration First!
+
+Before setting up the full system, **validate that Claude Desktop integration works**:
+
+1. **Build minimal mock server** (5 minutes)
+   ```bash
+   git clone <repository-url>
+   cd crownhold/applications/mcp-polygon
+   npm install --cache /tmp/.npm-cache
+   npm run build
+   ```
+
+2. **Configure Claude Desktop** (5 minutes)
+
+   Follow: [Claude Desktop Configuration - Phase 1A](docs/setup/claude-desktop-config-phase-1a.md)
+
+3. **Test in Claude Desktop** (2 minutes)
+   ```
+   Ask Claude: "What's my balance?"
+
+   Expected: Claude calls polygon_get_balance and shows mock data
+   ```
+
+4. **✅ Success?** You've proven MCP works! Now continue with full setup below.
+
+**Why Phase 1A first?** Better to spend 15 minutes validating integration than discover issues after hours of setup!
+
+---
+
+### Prerequisites (Full System)
 
 - Node.js 18+
 - Claude Desktop
 - API keys for Kraken and Wise
 - Polygon wallet with private key
 
-### Quick Start
+### Quick Start (Full System)
 
 1. **Clone and Install**
    ```bash
@@ -125,6 +154,7 @@ Crown Hold is built as a monorepo containing multiple NestJS applications, each 
 - [MCP Servers Description](docs/mcp-servers.md)
 
 ### Setup & Configuration
+- [Phase 1A Quick Start](docs/setup/claude-desktop-config-phase-1a.md) ⭐ **START HERE - 15 min test!**
 - [Claude Desktop Setup](docs/claude-setup.md)
 - [Claude Desktop Instructions](docs/claude-desktop-instructions.md) ⭐ **Important!**
 - [Environment Configuration](docs/environment-setup.md)
