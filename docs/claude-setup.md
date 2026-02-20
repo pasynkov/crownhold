@@ -10,10 +10,31 @@ This guide explains how to configure Claude Desktop to work with Crown Hold MCP 
 
 ## Understanding MCP Configuration
 
+### Local-Only Execution Model
+
+**Crown Hold MCP servers run as local processes, not network services:**
+
+- ✅ Launched by Claude Desktop on your machine
+- ✅ Communication via stdio (stdin/stdout)
+- ✅ No network ports opened
+- ✅ No HTTP endpoints exposed
+- ✅ Cannot be accessed remotely
+- ✅ Terminates when Claude Desktop closes
+
+**This means:**
+- Enhanced security (no network attacks possible)
+- Simple setup (no firewall, SSL, or authentication)
+- Fast performance (no network overhead)
+- Privacy (all data stays on your machine)
+
+### Configuration File Location
+
 Claude Desktop reads MCP server configuration from:
 - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 - **Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+This configuration tells Claude Desktop which local processes to spawn and how to communicate with them via stdio.
 
 ## Configuration Steps
 

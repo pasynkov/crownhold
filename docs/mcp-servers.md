@@ -11,6 +11,30 @@ MCP is a protocol that allows AI models like Claude to interact with external to
 3. **Handles requests** - Validates inputs and executes operations
 4. **Returns results** - Structured responses for Claude to interpret
 
+### Communication Model: stdio (Standard Input/Output)
+
+**Crown Hold MCP servers communicate via stdio, NOT HTTP:**
+
+```typescript
+// MCP Server runs as local process
+// Reads JSON-RPC messages from stdin
+// Writes responses to stdout
+// No HTTP server, no network ports
+
+process.stdin.on('data', (data) => {
+  const request = JSON.parse(data);
+  const result = await handleRequest(request);
+  process.stdout.write(JSON.stringify(result));
+});
+```
+
+**Key characteristics:**
+- **No network exposure**: Only accessible to Claude Desktop on same machine
+- **No authentication needed**: Physical access to machine is authentication
+- **Simple deployment**: Just run `node main.js`
+- **Fast communication**: No network overhead
+- **Automatic lifecycle**: Claude Desktop manages process lifecycle
+
 ## Common Patterns
 
 All Crown Hold MCP servers follow these patterns:

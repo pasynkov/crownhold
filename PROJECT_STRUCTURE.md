@@ -12,6 +12,7 @@ crownhold/
 │
 ├── docs/                          # 📚 Documentation
 │   ├── architecture.md            # System architecture and design
+│   ├── deployment.md              # Local deployment architecture
 │   ├── mcp-servers.md             # MCP servers technical docs
 │   ├── claude-setup.md            # Claude Desktop setup guide
 │   ├── environment-setup.md       # Environment variables guide

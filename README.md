@@ -16,6 +16,7 @@ Simply ask Claude to perform complex financial operations, and Crown Hold will a
 - 🤖 **Natural Language Control**: Just talk to Claude naturally
 - 🔗 **Multi-Platform Orchestration**: Seamlessly coordinate operations across services
 - 🔒 **Security First**: All credentials and recipients pre-configured
+- 🏠 **Local-Only Execution**: MCP servers run locally, never exposed to network
 - 📊 **Complete Visibility**: Check balances across all platforms
 - 🚀 **Complex Workflows**: Execute multi-step operations with a single request
 
@@ -127,12 +128,16 @@ Crown Hold is built as a monorepo containing multiple NestJS applications, each 
 
 ⚠️ **Important Security Notes:**
 
+- **Local-only execution**: MCP servers run on your machine only, no network exposure
+- **No remote access**: Cannot be accessed from outside your computer
+- **stdio communication**: Claude Desktop communicates via stdin/stdout, not HTTP
 - Never commit `.env` files
 - Use separate API keys for development and production
 - Configure transaction limits in production
 - Only add trusted recipient addresses
 - Regularly review transaction logs
 - Use read-only API keys when possible
+- Physical access to machine required for operation
 
 ## Project Structure
 

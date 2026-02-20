@@ -22,6 +22,8 @@ Complex operations are automatically orchestrated through multiple services:
 - **Monorepo Structure**: All MCP server applications in a single repository
 - **Framework**: NestJS for building MCP servers
 - **Protocol**: Model Context Protocol (MCP) for Claude integration
+- **Deployment**: Local-only execution (no network exposure)
+- **Communication**: MCP via stdio (standard input/output)
 - **Services Integration**:
   - Polygon blockchain (USDC and other tokens)
   - Kraken (cryptocurrency exchange)
@@ -81,19 +83,30 @@ Each MCP server exposes specific financial operations as tools that Claude can u
 
 ## Security & Configuration
 
+### Local-Only Execution
+**CRITICAL: All MCP servers run locally only.**
+- No HTTP endpoints exposed to network
+- No public API access
+- Communication via stdio (stdin/stdout) only
+- Launched directly by Claude Desktop on local machine
+- Cannot be accessed remotely
+- Additional security layer: physical access required
+
 ### Environment Variables
 All sensitive information is stored in `.env` files:
 - Private keys and wallet addresses (Polygon)
 - API keys and secrets (Kraken, Wise)
 - Predefined recipient accounts
-- Webhook URLs (if needed)
+- All files remain on local machine
 
 ### Security Principles
-1. **No secrets in code**: All credentials in `.env` files
-2. **Predefined recipients**: Only allow transfers to pre-configured accounts
-3. **Transaction limits**: Set maximum amounts for automated operations
-4. **Audit logging**: Log all operations for review
-5. **Environment separation**: Separate configs for development/production
+1. **Local-only execution**: MCP servers never exposed to network
+2. **No secrets in code**: All credentials in `.env` files on local machine
+3. **Predefined recipients**: Only allow transfers to pre-configured accounts
+4. **Transaction limits**: Set maximum amounts for automated operations
+5. **Audit logging**: Log all operations for review on local filesystem
+6. **Environment separation**: Separate configs for development/production
+7. **Physical security**: Requires local machine access to operate
 
 ## Development Guidelines
 

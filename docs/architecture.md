@@ -37,16 +37,75 @@ Crown Hold uses the Model Context Protocol (MCP) to expose financial operations 
 └───────────────┘ └─────────────┘ └─────────────┘
 ```
 
+## Deployment Model: Local-Only Execution
+
+**CRITICAL ARCHITECTURAL DECISION: All MCP servers run locally.**
+
+### Why Local-Only?
+
+1. **Security**: No network exposure = no remote attacks
+2. **Privacy**: Credentials never leave your machine
+3. **Simplicity**: No need for authentication, HTTPS, load balancers
+4. **Compliance**: All data stays on local filesystem
+5. **Zero latency**: No network overhead between Claude and MCP servers
+
+### Communication Protocol
+
+MCP servers communicate with Claude Desktop via **stdio (standard input/output)**:
+
+```
+Claude Desktop Process
+    │
+    ├─> Spawns: node /path/to/mcp-polygon/dist/main.js
+    │   └─> stdin/stdout communication
+    │
+    ├─> Spawns: node /path/to/mcp-kraken/dist/main.js
+    │   └─> stdin/stdout communication
+    │
+    └─> Spawns: node /path/to/mcp-wise/dist/main.js
+        └─> stdin/stdout communication
+```
+
+**No HTTP endpoints. No WebSockets. No network ports.**
+
+### Process Lifecycle
+
+1. User opens Claude Desktop
+2. Claude Desktop reads `claude_desktop_config.json`
+3. For each MCP server:
+   - Spawns Node.js process locally
+   - Establishes stdio pipes
+   - MCP server initializes and waits for commands
+4. User makes request → Claude calls MCP tools via stdio
+5. MCP server executes → returns result via stdout
+6. Claude Desktop closes → all MCP processes terminate
+
+### Security Implications
+
+**Local execution provides:**
+- No firewall rules needed
+- No SSL/TLS certificates
+- No authentication middleware
+- No rate limiting from network attacks
+- No DDoS vulnerability
+- No credential exposure over network
+
+**Physical security required:**
+- Access to machine = access to MCP servers
+- Keep machine locked when away
+- Encrypt disk for additional protection
+- Regular security updates
+
 ## Components
 
 ### 1. Claude AI Layer
 - Interprets user intent from natural language
 - Plans multi-step operations
-- Calls appropriate MCP tools in correct order
+- Calls appropriate MCP tools in correct order via stdio
 - Handles errors and provides user feedback
 - Confirms operations before execution
 
-### 2. MCP Server Layer
+### 2. MCP Server Layer (Local Processes)
 
 Each MCP server is a standalone NestJS application that:
 - Implements MCP protocol

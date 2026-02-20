@@ -142,6 +142,12 @@ npm test
 
 ## Step 8: Configure Claude Desktop
 
+**Important:** MCP servers run as **local processes** (not network services).
+- Communication via stdio (stdin/stdout)
+- No network ports opened
+- Cannot be accessed remotely
+- Completely secure and private
+
 Edit Claude Desktop configuration:
 
 **macOS:**
@@ -169,7 +175,12 @@ Add:
 }
 ```
 
-See [docs/claude-setup.md](docs/claude-setup.md) for complete instructions.
+**This tells Claude Desktop to:**
+1. Spawn these Node.js processes locally when it starts
+2. Communicate with them via stdio (not HTTP)
+3. Terminate them when Claude Desktop closes
+
+See [docs/claude-setup.md](docs/claude-setup.md) and [docs/deployment.md](docs/deployment.md) for complete details.
 
 ## Step 9: Start Claude Desktop
 
