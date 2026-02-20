@@ -38,9 +38,21 @@ Read these in order:
 3. **docs/architecture.md** - System design
 4. **PROJECT_STRUCTURE.md** - File organization
 
-## Step 4: Implement MCP Servers
+## Step 4: Follow Development Plan
 
-This is the main development work. For each application:
+**IMPORTANT:** Development is structured in phases. Start with Phase 0 (Research) and proceed sequentially.
+
+See [Development Plan](docs/plan/README.md) for detailed phase-by-phase instructions.
+
+### Quick Overview
+
+**Phase 0-1 (Week 1):** Research APIs + Build MCP infrastructure with mocks
+**Phase 2-4 (Weeks 2-3):** Integrate real APIs (Polygon → Kraken → Wise)
+**Phase 5-6 (Week 4):** End-to-end testing + Production hardening
+
+### Starting Development
+
+For detailed implementation guides, see the phase documents:
 
 ### mcp-polygon
 

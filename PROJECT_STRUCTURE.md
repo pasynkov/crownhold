@@ -16,7 +16,16 @@ crownhold/
 │   ├── mcp-servers.md             # MCP servers technical docs
 │   ├── claude-setup.md            # Claude Desktop setup guide
 │   ├── environment-setup.md       # Environment variables guide
-│   └── workflows.md               # Common usage workflows
+│   ├── workflows.md               # Common usage workflows
+│   └── plan/                      # 📋 Development Plan
+│       ├── README.md              # Plan overview
+│       ├── phase-0-research.md    # API research & library selection
+│       ├── phase-1-mcp-mocks.md   # MCP infrastructure + mocks
+│       ├── phase-2-polygon.md     # Polygon integration
+│       ├── phase-3-kraken.md      # Kraken integration
+│       ├── phase-4-wise.md        # Wise integration
+│       ├── phase-5-e2e.md         # End-to-end testing
+│       └── phase-6-production.md  # Production hardening
 │
 ├── scripts/                       # 🛠️ Utility scripts
 │   └── setup-env.js               # Environment setup script
