@@ -1,0 +1,63 @@
+{
+  "name": "crown-hold",
+  "version": "0.1.0",
+  "description": "AI-Powered Financial Management Solution",
+  "private": true,
+  "workspaces": [
+    "applications/*"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:apps",
+    "install:apps": "npm install --workspace=applications/mcp-polygon && npm install --workspace=applications/mcp-kraken && npm install --workspace=applications/mcp-wise",
+    "build": "npm run build --workspaces --if-present",
+    "build:polygon": "npm run build --workspace=applications/mcp-polygon",
+    "build:kraken": "npm run build --workspace=applications/mcp-kraken",
+    "build:wise": "npm run build --workspace=applications/mcp-wise",
+    "dev": "npm run dev --workspaces --if-present",
+    "dev:polygon": "npm run dev --workspace=applications/mcp-polygon",
+    "dev:kraken": "npm run dev --workspace=applications/mcp-kraken",
+    "dev:wise": "npm run dev --workspace=applications/mcp-wise",
+    "start": "npm run start --workspaces --if-present",
+    "start:polygon": "npm run start --workspace=applications/mcp-polygon",
+    "start:kraken": "npm run start --workspace=applications/mcp-kraken",
+    "start:wise": "npm run start --workspace=applications/mcp-wise",
+    "test": "npm run test --workspaces --if-present",
+    "test:polygon": "npm run test --workspace=applications/mcp-polygon",
+    "test:kraken": "npm run test --workspace=applications/mcp-kraken",
+    "test:wise": "npm run test --workspace=applications/mcp-wise",
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "clean": "rm -rf node_modules applications/*/node_modules applications/*/dist",
+    "setup:env": "node scripts/setup-env.js"
+  },
+  "keywords": [
+    "ai",
+    "mcp",
+    "finance",
+    "cryptocurrency",
+    "polygon",
+    "kraken",
+    "wise",
+    "claude"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "prettier": "^3.2.4",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/crown-hold.git"
+  }
+}
