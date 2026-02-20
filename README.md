@@ -125,13 +125,15 @@ Crown Hold is built as a monorepo containing multiple NestJS applications, each 
 
 ### Setup & Configuration
 - [Claude Desktop Setup](docs/claude-setup.md)
+- [Claude Desktop Instructions](docs/claude-desktop-instructions.md) ⭐ **Important!**
 - [Environment Configuration](docs/environment-setup.md)
 - [Common Workflows](docs/workflows.md)
 
 ### Development Plan
 - [Phase-by-Phase Development Plan](docs/plan/README.md)
-- [Phase 0: Research & API Analysis](docs/plan/phase-0-research.md)
-- [Phase 1: MCP Infrastructure + Mocks](docs/plan/phase-1-mcp-mocks.md)
+- [Phase 0: Research & API Analysis](docs/plan/phase-0-research.md) ✅
+- [Phase 1A: Minimal Mock for Testing](docs/plan/phase-1a-minimal-mock.md)
+- [Phase 1B: Full Mock Services](docs/plan/phase-1b-full-mocks.md)
 - [Phase 2-6: Integration & Production](docs/plan/)
 
 ## Security

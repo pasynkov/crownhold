@@ -8,11 +8,18 @@
 **Цель:** Изучить API и выбрать технологии
 **Результат:** Документация по API, выбранные библиотеки
 **Время:** 1-2 дня
+**Статус:** ✅ Завершена
 
-### [Phase 1: MCP Infrastructure + Mock Services](phase-1-mcp-mocks.md)
-**Цель:** Создать MCP серверы с эмуляцией всех операций
+### [Phase 1A: Minimal Mock](phase-1a-minimal-mock.md)
+**Цель:** Создать простейший MCP сервер для проверки интеграции
+**Результат:** Один tool работает с Claude Desktop
+**Время:** 1-2 дня
+**Важно:** Начните с этой фазы для проверки что Claude Desktop вообще видит tools!
+
+### [Phase 1B: Full Mock Services](phase-1b-full-mocks.md)
+**Цель:** Создать полноценные mock сервисы для всех платформ
 **Результат:** Полностью работающий flow с Claude Desktop (на моках)
-**Время:** 3-5 дней
+**Время:** 3-4 дня
 
 ### [Phase 2: Polygon Integration](phase-2-polygon.md)
 **Цель:** Интегрировать реальный Polygon testnet

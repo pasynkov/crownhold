@@ -1,18 +1,24 @@
-# Phase 1: MCP Infrastructure + Mock Services
+# Phase 1B: Full Mock Services
 
-**Цель:** Создать полностью функциональную MCP инфраструктуру с эмуляцией всех операций
+**Цель:** Создать полноценные mock сервисы для всех трех платформ с реалистичным поведением
 
-**Время:** 3-5 дней
+**Время:** 3-4 дня
 
 **Статус:** ⏳ Not Started
 
-## Почему начинаем с моков?
+**Prerequisite:** Phase 1A завершена (минимальный mock работает с Claude Desktop)
 
-1. **Тестирование Claude Desktop интеграции** без риска реальных средств
-2. **Отладка MCP protocol** и stdio communication
-3. **Тестирование асинхронных операций** и polling механизмов
-4. **Проверка полного workflow** от начала до конца
-5. **Разработка UI/UX** взаимодействия с Claude
+## Зачем полные моки?
+
+После Phase 1A мы знаем что **базовая интеграция работает**. Теперь нужно:
+
+1. **Эмулировать все операции** - transfers, trades, withdrawals
+2. **Реалистичное async поведение** - confirmations, delays, status changes
+3. **Тестирование сложных workflows** - multi-step операции
+4. **Отладка error handling** - что если balance insufficient?
+5. **Проверка user experience** - понятны ли статусы? хорошо ли Claude общается?
+
+После этой фазы можно будет протестировать **весь flow end-to-end** без риска.
 
 ## Задачи
 
@@ -509,4 +515,8 @@ Result: Mock transfer completed successfully
 
 ## Следующий шаг
 
-После завершения Phase 1 переходим к [Phase 2: Polygon Integration](phase-2-polygon.md)
+После завершения Phase 1B переходим к [Phase 2: Polygon Integration](phase-2-polygon.md)
+
+---
+
+**Note:** Phase 1A + 1B = полная имплементация mock сервисов с проверенной интеграцией Claude Desktop.
