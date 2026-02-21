@@ -164,7 +164,8 @@ Before setting up the full system, **validate that Claude Desktop integration wo
 ### Development Plan
 - [Phase-by-Phase Development Plan](docs/plan/README.md)
 - [Phase 1A: Minimal Mock for Testing](docs/plan/phase-1a-minimal-mock.md) ⭐ **START HERE**
-- [Phase 1B: Full Mock Services](docs/plan/phase-1b-full-mocks.md)
+- [Phase 1B: Full Mock Services](docs/plan/phase-1b-full-mocks.md) ✅ **COMPLETED**
+- [Phase 1C: Read-Only + Transaction Simulation](docs/plan/phase-1c-readonly-simulation.md) 🛡️ **RECOMMENDED**
 - [Phase 2: Research & API Analysis](docs/plan/phase-2-research.md)
 - [Phase 3-7: Integration & Production](docs/plan/)
 
