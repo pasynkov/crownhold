@@ -155,6 +155,7 @@ Before setting up the full system, **validate that Claude Desktop integration wo
 
 ### Setup & Configuration
 - [Phase 1A Quick Start](docs/setup/claude-desktop-config-phase-1a.md) ⭐ **START HERE - 15 min test!**
+- [Phase 1B Full Setup](docs/setup/claude-desktop-config-phase-1b.md) 🚀 **All Three Platforms!**
 - [Claude Desktop Setup](docs/claude-setup.md)
 - [Claude Desktop Instructions](docs/claude-desktop-instructions.md) ⭐ **Important!**
 - [Environment Configuration](docs/environment-setup.md)

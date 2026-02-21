@@ -1,18 +1,18 @@
 {
-  "name": "crown-polygon-mock",
+  "name": "crown-kraken-mock",
   "version": "0.2.0",
-  "description": "Crown Hold - Polygon MCP server (Phase 1B: Full mock service with async operations)",
+  "description": "Crown Hold - Kraken MCP server (Phase 1B: Full mock service)",
   "type": "module",
   "main": "dist/main.js",
   "bin": {
-    "crown-polygon-mock": "dist/main.js"
+    "crown-kraken-mock": "dist/main.js"
   },
   "scripts": {
     "build": "tsc",
     "start": "node dist/main.js",
     "dev": "tsc && node dist/main.js"
   },
-  "keywords": ["mcp", "polygon", "blockchain", "claude"],
+  "keywords": ["mcp", "kraken", "exchange", "claude"],
   "author": "",
   "license": "MIT",
   "dependencies": {
