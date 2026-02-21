@@ -6,13 +6,15 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import * as crypto from 'crypto';
+import { PolygonRealService } from './services/polygon-real.service.js';
+import { PolygonSimulationService } from './services/polygon-simulation.service.js';
+import type { IPolygonService, OperationMode } from './services/types.js';
 
-// Phase 1B: Full Mock Service with realistic async behavior
+// Phase 1C: Read-Only + Transaction Simulation
 const server = new Server(
   {
-    name: 'crown-polygon-mock',
-    version: '0.2.0',
+    name: 'crown-polygon',
+    version: '0.3.0',
   },
   {
     capabilities: {
@@ -22,42 +24,66 @@ const server = new Server(
 );
 
 // ========================================
-// STATE MANAGEMENT
+// CONFIGURATION
 // ========================================
 
-interface MockTransaction {
-  hash: string;
-  from: string;
-  to: string;
-  amount: string;
-  status: 'pending' | 'confirming' | 'confirmed' | 'failed';
-  confirmations: number;
-  blockNumber?: number;
-  timestamp: Date;
-  gasUsed?: string;
+const OPERATION_MODE: OperationMode = (process.env.OPERATION_MODE as OperationMode) || 'simulation';
+const POLYGON_RPC_URL = process.env.POLYGON_RPC_URL || 'https://rpc-mumbai.maticvigil.com';
+const WALLET_ADDRESS = process.env.WALLET_ADDRESS || '0xMOCK1234567890abcdef';
+const USDC_CONTRACT_ADDRESS = process.env.USDC_CONTRACT_ADDRESS || '0x0FA8781a83E46826621b3BC094Ea2A0212e71B23';
+
+// ========================================
+// SERVICE INITIALIZATION
+// ========================================
+
+let polygonService: Partial<IPolygonService>;
+let mode: string;
+
+if (OPERATION_MODE === 'mock') {
+  // For Phase 1C, we'll focus on simulation mode
+  // Mock mode can fallback to old behavior if needed
+  mode = 'MOCK (Phase 1B)';
+  // Import mock logic would go here - for now use simulation as fallback
+  console.error('[WARN] Mock mode not fully ported to Phase 1C, using simulation');
 }
 
-interface MockState {
-  balance: {
-    usdc: string;
-    matic: string;
-  };
-  transactions: Map<string, MockTransaction>;
-  transactionHistory: MockTransaction[];
+if (OPERATION_MODE === 'simulation' || OPERATION_MODE === 'mock') {
+  mode = 'SIMULATION (Phase 1C) - Real Data + Simulated Writes';
+
+  try {
+    // Initialize real service for reading
+    const realService = new PolygonRealService({
+      rpcUrl: POLYGON_RPC_URL,
+      walletAddress: WALLET_ADDRESS,
+      usdcAddress: USDC_CONTRACT_ADDRESS,
+    });
+
+    // Initialize simulation service for writes
+    const simulationService = new PolygonSimulationService(realService);
+
+    // Combine: reads from real, writes from simulation
+    polygonService = {
+      getBalance: () => realService.getBalance(),
+      getTokenPrice: () => realService.getTokenPrice(),
+      estimateGas: () => realService.estimateGas(),
+      transferUSDC: (recipient: string, amount: string) =>
+        simulationService.transferUSDC(recipient, amount),
+      getTransactionStatus: (hash: string) => realService.getTransactionStatus(hash),
+      getTransactions: (limit?: number) => realService.getTransactions(limit),
+    };
+  } catch (error: any) {
+    console.error('[ERROR] Failed to initialize Polygon services:', error.message);
+    process.exit(1);
+  }
+} else if (OPERATION_MODE === 'production') {
+  mode = 'PRODUCTION (Phase 3+) - Real Operations';
+  // Production mode would go here (Phase 3)
+  console.error('[ERROR] Production mode not implemented yet (Phase 3)');
+  process.exit(1);
+} else {
+  console.error(`[ERROR] Unknown operation mode: ${OPERATION_MODE}`);
+  process.exit(1);
 }
-
-const state: MockState = {
-  balance: {
-    usdc: '5234.50',
-    matic: '12.45',
-  },
-  transactions: new Map(),
-  transactionHistory: [],
-};
-
-const WALLET_ADDRESS = '0xMOCK1234567890abcdef';
-const CONFIRMATION_TIME_MS = 2000; // 2 sec per block
-const REQUIRED_CONFIRMATIONS = 12;
 
 // ========================================
 // HELPER FUNCTIONS
@@ -72,82 +98,29 @@ function log(message: string, data?: any) {
   }
 }
 
-function generateTxHash(): string {
-  return '0x' + crypto.randomBytes(32).toString('hex');
-}
-
-function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function simulateConfirmations(txHash: string) {
-  const tx = state.transactions.get(txHash);
-  if (!tx) return;
-
-  // Simulate block confirmations over time
-  for (let i = 1; i <= REQUIRED_CONFIRMATIONS; i++) {
-    await sleep(CONFIRMATION_TIME_MS);
-    tx.confirmations = i;
-
-    if (i === 1) {
-      tx.status = 'confirming';
-      tx.blockNumber = Math.floor(Math.random() * 1000000) + 40000000;
-      log(`Transaction ${txHash.slice(0, 10)}... included in block ${tx.blockNumber}`);
-    }
-
-    if (i >= REQUIRED_CONFIRMATIONS) {
-      tx.status = 'confirmed';
-      log(`Transaction ${txHash.slice(0, 10)}... confirmed (${i}/${REQUIRED_CONFIRMATIONS})`);
-    } else {
-      log(`Transaction ${txHash.slice(0, 10)}... confirming (${i}/${REQUIRED_CONFIRMATIONS})`);
-    }
-  }
-}
-
 // ========================================
 // TOOL HANDLERS
 // ========================================
 
 async function handleGetBalance() {
-  log('Getting balance');
-
+  log('Tool: polygon_get_balance');
   return {
     content: [
       {
         type: 'text',
-        text: JSON.stringify({
-          success: true,
-          data: {
-            address: WALLET_ADDRESS,
-            usdc: state.balance.usdc,
-            matic: state.balance.matic,
-          },
-        }),
+        text: JSON.stringify(await polygonService.getBalance!()),
       },
     ],
   };
 }
 
 async function handleGetTokenPrice() {
-  log('Getting token price');
-
-  // Simulate slight price fluctuation
-  const basePrice = 0.92;
-  const fluctuation = (Math.random() - 0.5) * 0.002; // ±0.001
-  const price = (basePrice + fluctuation).toFixed(4);
-
+  log('Tool: polygon_get_token_price');
   return {
     content: [
       {
         type: 'text',
-        text: JSON.stringify({
-          success: true,
-          data: {
-            token: 'USDC',
-            currency: 'EUR',
-            price,
-          },
-        }),
+        text: JSON.stringify(await polygonService.getTokenPrice!()),
       },
     ],
   };
@@ -155,89 +128,13 @@ async function handleGetTokenPrice() {
 
 async function handleTransferUSDC(args: any) {
   const { recipient, amount } = args;
-
-  log('Transfer USDC', { recipient, amount });
-
-  // Validate amount
-  const transferAmount = parseFloat(amount);
-  const currentBalance = parseFloat(state.balance.usdc);
-
-  if (isNaN(transferAmount) || transferAmount <= 0) {
-    return {
-      content: [
-        {
-          type: 'text',
-          text: JSON.stringify({
-            success: false,
-            error: {
-              code: 'INVALID_AMOUNT',
-              message: 'Amount must be a positive number',
-            },
-          }),
-        },
-      ],
-    };
-  }
-
-  if (transferAmount > currentBalance) {
-    return {
-      content: [
-        {
-          type: 'text',
-          text: JSON.stringify({
-            success: false,
-            error: {
-              code: 'INSUFFICIENT_BALANCE',
-              message: `Insufficient balance. You have ${state.balance.usdc} USDC, need ${amount} USDC`,
-            },
-          }),
-        },
-      ],
-    };
-  }
-
-  // Generate mock transaction
-  const txHash = generateTxHash();
-  const gasUsed = '0.01'; // Mock gas cost
-
-  const tx: MockTransaction = {
-    hash: txHash,
-    from: WALLET_ADDRESS,
-    to: recipient,
-    amount: amount.toString(),
-    status: 'pending',
-    confirmations: 0,
-    timestamp: new Date(),
-    gasUsed,
-  };
-
-  state.transactions.set(txHash, tx);
-  state.transactionHistory.push(tx);
-
-  // Update balance immediately (optimistic update)
-  state.balance.usdc = (currentBalance - transferAmount).toFixed(2);
-  state.balance.matic = (parseFloat(state.balance.matic) - parseFloat(gasUsed)).toFixed(2);
-
-  log(`Transaction created: ${txHash}`, { from: WALLET_ADDRESS, to: recipient, amount });
-
-  // Start async confirmation simulation
-  simulateConfirmations(txHash);
+  log('Tool: polygon_transfer_usdc', { recipient, amount });
 
   return {
     content: [
       {
         type: 'text',
-        text: JSON.stringify({
-          success: true,
-          data: {
-            transactionHash: txHash,
-            from: WALLET_ADDRESS,
-            to: recipient,
-            amount: amount.toString(),
-            status: 'pending',
-            gasUsed,
-          },
-        }),
+        text: JSON.stringify(await polygonService.transferUSDC!(recipient, amount)),
       },
     ],
   };
@@ -245,47 +142,13 @@ async function handleTransferUSDC(args: any) {
 
 async function handleGetTransactionStatus(args: any) {
   const { transactionHash } = args;
-
-  log('Get transaction status', { transactionHash });
-
-  const tx = state.transactions.get(transactionHash);
-
-  if (!tx) {
-    return {
-      content: [
-        {
-          type: 'text',
-          text: JSON.stringify({
-            success: false,
-            error: {
-              code: 'TX_NOT_FOUND',
-              message: 'Transaction not found',
-            },
-          }),
-        },
-      ],
-    };
-  }
+  log('Tool: polygon_get_transaction_status', { transactionHash });
 
   return {
     content: [
       {
         type: 'text',
-        text: JSON.stringify({
-          success: true,
-          data: {
-            transactionHash: tx.hash,
-            status: tx.status,
-            confirmations: tx.confirmations,
-            requiredConfirmations: REQUIRED_CONFIRMATIONS,
-            blockNumber: tx.blockNumber,
-            from: tx.from,
-            to: tx.to,
-            amount: tx.amount,
-            gasUsed: tx.gasUsed,
-            timestamp: tx.timestamp.toISOString(),
-          },
-        }),
+        text: JSON.stringify(await polygonService.getTransactionStatus!(transactionHash)),
       },
     ],
   };
@@ -293,56 +156,26 @@ async function handleGetTransactionStatus(args: any) {
 
 async function handleGetTransactions(args: any) {
   const limit = args?.limit || 10;
-
-  log('Get transactions', { limit });
-
-  // Return most recent transactions
-  const recentTxs = state.transactionHistory
-    .slice(-limit)
-    .reverse()
-    .map(tx => ({
-      transactionHash: tx.hash,
-      from: tx.from,
-      to: tx.to,
-      amount: tx.amount,
-      status: tx.status,
-      confirmations: tx.confirmations,
-      blockNumber: tx.blockNumber,
-      timestamp: tx.timestamp.toISOString(),
-    }));
+  log('Tool: polygon_get_transactions', { limit });
 
   return {
     content: [
       {
         type: 'text',
-        text: JSON.stringify({
-          success: true,
-          data: {
-            transactions: recentTxs,
-            total: state.transactionHistory.length,
-          },
-        }),
+        text: JSON.stringify(await polygonService.getTransactions!(limit)),
       },
     ],
   };
 }
 
 async function handleEstimateGas() {
-  log('Estimate gas');
+  log('Tool: polygon_estimate_gas');
 
   return {
     content: [
       {
         type: 'text',
-        text: JSON.stringify({
-          success: true,
-          data: {
-            gasLimit: '50000',
-            gasPrice: '0.00000002', // MATIC
-            estimatedCost: '0.01', // MATIC
-            estimatedCostUSD: '0.008',
-          },
-        }),
+        text: JSON.stringify(await polygonService.estimateGas!()),
       },
     ],
   };
@@ -357,7 +190,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: 'polygon_get_balance',
-        description: 'Get USDC and MATIC balance from Polygon wallet',
+        description: `Get USDC and MATIC balance from Polygon wallet ${OPERATION_MODE === 'simulation' ? '(real blockchain data)' : ''}`,
         inputSchema: {
           type: 'object',
           properties: {},
@@ -375,7 +208,10 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: 'polygon_transfer_usdc',
-        description: 'Transfer USDC to a recipient address on Polygon. Returns transaction hash. Transaction will be confirmed after ~24 seconds (12 blocks).',
+        description:
+          OPERATION_MODE === 'simulation'
+            ? 'SIMULATE USDC transfer (validates with real data, does not send real transaction) 🛡️'
+            : 'Transfer USDC to a recipient address on Polygon',
         inputSchema: {
           type: 'object',
           properties: {
@@ -420,7 +256,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: 'polygon_estimate_gas',
-        description: 'Estimate gas cost for a USDC transfer',
+        description: `Estimate gas cost for a USDC transfer ${OPERATION_MODE === 'simulation' ? '(real gas prices)' : ''}`,
         inputSchema: {
           type: 'object',
           properties: {},
@@ -438,8 +274,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
 
   try {
-    log(`Tool called: ${name}`, args);
-
     switch (name) {
       case 'polygon_get_balance':
         return await handleGetBalance();
@@ -490,14 +324,29 @@ async function main() {
   await server.connect(transport);
 
   log('='.repeat(60));
-  log('Crown Hold Polygon Mock MCP Server');
+  log('Crown Hold Polygon MCP Server');
   log('='.repeat(60));
-  log('Version: 0.2.0');
-  log('Phase: 1B - Full Mock Service');
+  log('Version: 0.3.0');
+  log(`Mode: ${mode}`);
   log('Transport: stdio');
-  log('Initial balances:', state.balance);
-  log('Wallet address: ' + WALLET_ADDRESS);
-  log('='.repeat(60));
+  log('Configuration:', {
+    operationMode: OPERATION_MODE,
+    rpcUrl: POLYGON_RPC_URL,
+    walletAddress: WALLET_ADDRESS,
+    usdcContract: USDC_CONTRACT_ADDRESS,
+  });
+
+  if (OPERATION_MODE === 'simulation') {
+    log('='.repeat(60));
+    log('🛡️  SIMULATION MODE ACTIVE');
+    log('='.repeat(60));
+    log('✓ Read operations use REAL blockchain data');
+    log('✓ Write operations are SIMULATED (no real transactions)');
+    log('✓ All simulations validated against real balances');
+    log('✓ Zero risk testing environment');
+    log('='.repeat(60));
+  }
+
   log('Server ready. Waiting for tool calls...');
 }
 

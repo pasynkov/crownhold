@@ -1,7 +1,7 @@
 {
-  "name": "crown-polygon-mock",
-  "version": "0.2.0",
-  "description": "Crown Hold - Polygon MCP server (Phase 1B: Full mock service with async operations)",
+  "name": "crown-polygon",
+  "version": "0.3.0",
+  "description": "Crown Hold - Polygon MCP server (Phase 1C: Read-only + Simulation with real blockchain data)",
   "type": "module",
   "main": "dist/main.js",
   "bin": {
@@ -12,11 +12,17 @@
     "start": "node dist/main.js",
     "dev": "tsc && node dist/main.js"
   },
-  "keywords": ["mcp", "polygon", "blockchain", "claude"],
+  "keywords": [
+    "mcp",
+    "polygon",
+    "blockchain",
+    "claude"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.4"
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "ethers": "^6.16.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
